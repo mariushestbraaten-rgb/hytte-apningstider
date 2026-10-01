@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Test av innliming</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; max-width: 760px; margin: 0 auto; padding: 24px 16px; color: #000; }
+  .merk { background: #FFF097; padding: 8px 12px; border-radius: 6px; font-size: .9rem; }
+</style>
+</head>
+<body>
+<p class="merk">Testside som etterligner en artikkel på dnt.no. Iframen under er nøyaktig koden som limes inn i Optimizely.</p>
+<h1>Åpningstider på Iungsdalshytta</h1>
+<p>Åpningstidene under hentes automatisk fra ut.no.</p>
+
+<!-- Start: kode til Optimizely -->
+<iframe src="iungsdalshytta/" title="Åpningstider for Iungsdalshytta"
+        style="width:100%;height:680px;border:0;display:block" loading="lazy"
+        data-apningstider></iframe>
+<script>
+  window.addEventListener("message", function (e) {
+    if (!e.data || e.data.type !== "dnt-apningstider-hoyde") return;
+    document.querySelectorAll("iframe[data-apningstider]").forEach(function (f) {
+      if (f.contentWindow === e.source) f.style.height = e.data.hoyde + "px";
+    });
+  });
+</script>
+<!-- Slutt: kode til Optimizely -->
+
+<p>Teksten etter iframen skal flyte rett under boksen uten luke.</p>
+</body>
+</html>

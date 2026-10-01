@@ -1,0 +1,37 @@
+name: Oppdater åpningstider fra ut.no
+
+on:
+  schedule:
+    - cron: "7 * * * *"   # hver time, sju minutter over (UTC)
+  workflow_dispatch:       # knapp for å kjøre manuelt under Actions
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bygg-og-publiser:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publiser.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Hent fra ut.no og bygg sidene
+        run: python bygg.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: publiser
+        uses: actions/deploy-pages@v4

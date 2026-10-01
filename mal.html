@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Åpningstider for $navn</title>
+<style>
+  :root {
+    --blekk: #000000;
+    --dempet: #4a4a4a;
+    --flate: #FFF7E9;
+    --linje: #E8DCC6;
+    --rod: #D82D20;
+    --betjent: #597E61;
+    --selvbetjent: #C5DCEA;
+    --ubetjent: #E9F2D9;
+    --stengt: #F8E6C6;
+    --ingen: #F2F2F2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #FFFFFF; color: var(--blekk); }
+  body {
+    font-family: "ABC Social", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px; line-height: 1.45;
+  }
+  .ramme { max-width: 720px; padding: 4px 2px 8px; }
+
+  .na { background: var(--flate); border-radius: 14px; padding: 18px 20px 16px; }
+  .na-status { margin: 0; font-size: 1.6rem; line-height: 1.15; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .na-detalj { margin: 6px 0 0; color: var(--dempet); }
+
+  .stripe { margin: 18px 0 0; position: relative; }
+  .stripe-bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; }
+  .stripe-bar span { display: block; height: 100%; }
+  .stripe-idag { position: absolute; top: -4px; height: 30px; width: 3px; margin-left: -1px; background: var(--rod); border-radius: 2px; }
+  .stripe-mnd { display: flex; margin-top: 4px; font-size: .75rem; color: var(--dempet); }
+  .stripe-mnd span { flex: 1 1 0; text-align: left; padding-left: 2px; }
+
+  .prikk { display: inline-block; width: 14px; height: 14px; border-radius: 50%; flex: none; }
+  .na-status .prikk { width: 16px; height: 16px; }
+  .betjent { background: var(--betjent); }
+  .selvbetjent { background: var(--selvbetjent); box-shadow: inset 0 0 0 1px #9fc1d6; }
+  .ubetjent { background: var(--ubetjent); box-shadow: inset 0 0 0 1px #c9d9ad; }
+  .stengt { background: var(--stengt); box-shadow: inset 0 0 0 1px #e3cc9f; }
+  .annet { background: var(--ingen); box-shadow: inset 0 0 0 1px #d6d6d6; }
+  .ingen { background: var(--ingen); }
+  .stripe-bar span { box-shadow: none; }
+  .stripe-bar .stengt { background: repeating-linear-gradient(135deg, var(--stengt) 0 5px, #EAD3A8 5px 7px); }
+
+  .perioder { margin: 20px 0 0; }
+  .ar { margin: 14px 0 4px; font-size: 1rem; font-weight: 600; }
+  .ar:first-child { margin-top: 0; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: grid; grid-template-columns: 22px 1fr auto; align-items: baseline; gap: 4px 6px; padding: 7px 0; border-bottom: 1px solid var(--linje); }
+  li .prikk { transform: translateY(2px); }
+  .datoer { font-variant-numeric: tabular-nums; }
+  .niva { text-align: right; white-space: nowrap; }
+  .niva small { color: var(--dempet); font-size: .85rem; margin-left: 6px; }
+  .na-merke { margin-left: 8px; font-size: .75rem; font-weight: 600; color: var(--rod); }
+
+  .tomt { margin: 20px 0 0; color: var(--dempet); }
+
+  .bunn { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+  .knapp { display: inline-block; background: var(--rod); color: #FFFFFF; text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 999px; }
+  .knapp:hover { background: #b8251a; }
+  a:focus-visible { outline: 3px solid var(--blekk); outline-offset: 2px; }
+  .kilde { margin: 0; font-size: .8rem; color: var(--dempet); }
+  .kilde a { color: inherit; }
+
+  @media (max-width: 420px) {
+    .na { padding: 16px; }
+    .na-status { font-size: 1.35rem; }
+    li { grid-template-columns: 22px 1fr; }
+    .niva { grid-column: 2; text-align: left; }
+    .niva small { margin-left: 0; }
+    .niva small::before { content: ", "; }
+    .stripe-mnd span:nth-child(3n+2), .stripe-mnd span:nth-child(3n+3) { visibility: hidden; }
+  }
+</style>
+</head>
+<body>
+<main class="ramme">
+$innhold
+</main>
+<script>
+  // Sender høyden til siden iframen ligger på, så den kan tilpasse seg (valgfritt, se README).
+  (function () {
+    function send() {
+      var m = document.querySelector("main"); var h = Math.ceil(m.getBoundingClientRect().bottom + window.scrollY);
+      try { parent.postMessage({ type: "dnt-apningstider-hoyde", hoyde: h, side: location.pathname }, "*"); } catch (e) {}
+    }
+    window.addEventListener("load", send);
+    window.addEventListener("resize", send);
+  })();
+</script>
+</body>
+</html>
